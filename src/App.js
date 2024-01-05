@@ -3,8 +3,8 @@ import {Routes, Route} from 'react-router-dom';
 import Landing from './components/Landing';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Blogs from './components/Blogs';
 import Dashboard from './components/Dashboard';
-import UserProfile from './components/UserProfile';
 
 function App() {
   return (
@@ -23,12 +23,12 @@ function App() {
 					element={<Signup />}
 				/>
 				<Route
-					path='/dashboard'
-					element={<Dashboard />}
+					path='/blogs'
+					element={<Blogs />}
 				/>
 				<Route
-					path='/user'
-					element={<UserProfile />}
+					path='/dashboard'
+					element={<Dashboard />}
 				/>
 			</Routes>
 		</div>

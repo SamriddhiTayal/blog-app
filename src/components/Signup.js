@@ -5,7 +5,7 @@ function Signup() {
 			<form>
         <input type="text" placeholder="Username"/>
 				<input
-					type='text'
+					type='email'
 					placeholder='Email'
 				/>
 				<input

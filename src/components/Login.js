@@ -4,7 +4,7 @@ function Login() {
 			<p>Login page</p>
 			<form>
 				<input
-					type='text'
+					type='email'
 					placeholder='Email'
 				/>
 				<input
