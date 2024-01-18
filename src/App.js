@@ -5,7 +5,6 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Blogs from './components/Blogs';
 import Dashboard from './components/Dashboard';
-
 function App() {
   return (
 		<div>
@@ -23,7 +22,7 @@ function App() {
 					element={<Signup />}
 				/>
 				<Route
-					path='/blogs'
+					path='/blog'
 					element={<Blogs />}
 				/>
 				<Route
