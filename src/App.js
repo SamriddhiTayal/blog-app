@@ -22,7 +22,7 @@ function App() {
 					element={<Signup />}
 				/>
 				<Route
-					path='/blog'
+					path='/blogs'
 					element={<Blogs />}
 				/>
 				<Route

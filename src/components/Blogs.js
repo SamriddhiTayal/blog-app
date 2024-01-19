@@ -3,15 +3,15 @@ import axios from 'axios';
 import Blog from './Blog';
 
 function Blogs() {
-	const [blog, setBlog] = useState([]);
+	const [blogs, setBlogs] = useState([]);
 	const [loading, setLoading] = useState(true);
 
-	const getBlog = () => {
+	const getBlogs = () => {
 		axios
 			.get('http://localhost:8000/blog')
 			.then((res) => {
-				// console.log("Response",res.data.data.blog);
-				setBlog(res.data.data.blog);
+				// console.log("Response",res.data.data.blogs);
+				setBlogs(res.data.data.blogs);
 				setLoading(false); // Set loading to false when data is fetched
 			})
 			.catch((error) => {
@@ -21,7 +21,7 @@ function Blogs() {
 	};
 
 	useEffect(() => {
-		getBlog();
+		getBlogs();
 	}, []);
 
 	return (
@@ -34,10 +34,10 @@ function Blogs() {
 
 			{loading ? (
 				<p>Loading blogs...</p>
-			) : Array.isArray(blog) ? (
-				blog.map((blogData, index) => (
+			) : Array.isArray(blogs) ? (
+				blogs.map((blog, index) => (
 					<div key={index + 1}>
-						<Blog blogData={blogData} />
+						<Blog title={blog.title} content = {blog.content} author={blog.author}/>
 					</div>
 				))
 			) : (
