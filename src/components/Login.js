@@ -40,7 +40,7 @@ function Login() {
 				<input
 					type='password'
 					placeholder='Password'
-					vvalue= {password}
+					value= {password}
 					onChange={passwordHandler}
 				/>
         <button>Login</button>
