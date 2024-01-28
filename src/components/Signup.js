@@ -16,34 +16,34 @@ function Signup() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// try {
-		// 	const response = await axios.post('http://localhost:8000/user/signup', {
-		// 		data: {
-		// 			username,
-		// 			email,
-		// 			password,
-		// 		},
-		// 	});
-		// 	console.log(response.data);
-
-		// } catch (err) {
-		// 	alert('Error: ', err);
-		// }
-		console.log(email, password, username);
-		axios
-			.post('http://localhost:8000/user/signup', {
+		try {
+			const response = await axios.post('http://localhost:8000/user/signup', {
 				data: {
 					username,
 					email,
 					password,
 				},
-			})
-			.then((res) => {
-				console.log(res.data.message);
-			})
-			.catch((err) => {
-				alert('Error: ', err);
 			});
+			console.log(response.data.message);
+
+		} catch (err) {
+			alert('Error: ', err);
+		}
+		// console.log(email, password, username);
+		// axios
+		// 	.post('http://localhost:8000/user/signup', {
+		// 		data: {
+		// 			username,
+		// 			email,
+		// 			password,
+		// 		},
+		// 	})
+		// 	.then((res) => {
+		// 		console.log(res.data.message);
+		// 	})
+		// 	.catch((err) => {
+		// 		alert('Error: ', err);
+		// 	});
 	};
 	return (
 		<div>

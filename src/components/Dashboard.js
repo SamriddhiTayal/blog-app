@@ -1,14 +1,20 @@
-import Blog from './Blog';
+import UserBlog from './UserBlog';
 // import blogData from '../data/blogs.json';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 function Dashboard() {
 	const [blogs, setBlogs] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [showForm, setShowForm] = useState(false);
+	const [addBlogFormInputs, setAddBlogFormInputs] = useState({
+		title: '',
+		content: '',
+	});
+
 	const getUserBlogs = () => {
 		axios
 			.post('http://localhost:8000/user', {
-				author: '58e726d74b245e76333bdff',
+				author: '658e726d74b245e76333bdff',
 			})
 			.then((res) => {
 				setBlogs(res.data.data.blogs);
@@ -19,13 +25,56 @@ function Dashboard() {
 				setLoading(false);
 			});
 	};
-
+	const handleAddBlogFormInputs = (e) => {
+		const { name, value } = e.target;
+		// console.log(e);
+		setAddBlogFormInputs({ ...addBlogFormInputs, [name]: value });
+	};
+	const handleAddBlogSubmit = async (e) => {
+		const authorId = '658e726d74b245e76333bdff';
+		e.preventDefault();
+		// get author from LS
+		// sent post request
+		// display edit and delete button
+		axios
+			.post('http://localhost:8000/blog/add', {
+					author: authorId,
+					title: addBlogFormInputs.title,
+					content: addBlogFormInputs.content,
+				
+			})
+			.then((res) => {
+				console.log(res.data.message);
+			})
+			.catch((err) => {
+				alert('Error:', err);
+			});
+	};
 	useEffect(() => {
 		getUserBlogs();
 	}, []);
 	return (
 		<div>
-			<button>Add Blog</button>
+			<button onClick={() => setShowForm(true)}>Add Blog</button>
+			{showForm ? (
+				<form onSubmit={handleAddBlogSubmit}>
+					<input
+						type='text'
+						placeholder='Title'
+						name='title'
+						value={addBlogFormInputs.title}
+						onChange={handleAddBlogFormInputs}
+					/>
+					<input
+						type='text'
+						placeholder='Content'
+						name='content'
+						value={addBlogFormInputs.content}
+						onChange={handleAddBlogFormInputs}
+					/>
+					<button>Submit</button>
+				</form>
+			) : null}
 			<button>Logout</button>
 			<p>Display user blogs</p>
 
@@ -34,7 +83,7 @@ function Dashboard() {
 			) : Array.isArray(blogs) ? (
 				blogs.map((blog, index) => (
 					<div key={index}>
-						<Blog
+						<UserBlog
 							content={blog.content}
 							title={blog.title}
 							author={blog.author}
