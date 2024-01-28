@@ -30,18 +30,19 @@ function Dashboard() {
 		// console.log(e);
 		setAddBlogFormInputs({ ...addBlogFormInputs, [name]: value });
 	};
-	const handleAddBlogSubmit = async (e) => {
-		const authorId = '658e726d74b245e76333bdff';
+	const handleAddBlogSubmit =  (e) => {
+		// const authorId = '658e726d74b245e76333bdff';
 		e.preventDefault();
 		// get author from LS
 		// sent post request
 		// display edit and delete button
 		axios
 			.post('http://localhost:8000/blog/add', {
-					author: authorId,
+				data: {
+					author: '658e726d74b245e76333bdff',
 					title: addBlogFormInputs.title,
 					content: addBlogFormInputs.content,
-				
+				},
 			})
 			.then((res) => {
 				console.log(res.data.message);
