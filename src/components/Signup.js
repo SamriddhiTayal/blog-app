@@ -1,30 +1,41 @@
 import { useState } from 'react';
 import axios from 'axios';
 function Signup() {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [username, setUsername] = useState('');
-	const emailInputHandler = (e) => {
-		setEmail(e.target.value);
-	};
-	const passwordHandler = (e) => {
-		setPassword(e.target.value);
-	};
-	const usernameInputHandler = (e) => {
-		setUsername(e.target.value);
-	};
+	// const [email, setEmail] = useState('');
+	// const [password, setPassword] = useState('');
+	// const [username, setUsername] = useState('');
+	// const emailInputHandler = (e) => {
+	// 	setEmail(e.target.value);
+	// };
+	// const passwordHandler = (e) => {
+	// 	setPassword(e.target.value);
+	// };
+	// const usernameInputHandler = (e) => {
+	// 	setUsername(e.target.value);
+	// };
+	const [signupInputs, setSignupInputs] = useState({
+		username:'',
+		email:'',
+		password:''
+	})
+	const signupInputHandler=(e)=>{
+		const {name, value} = e.target;
+		// console.log(e.target);
+		setSignupInputs({...signupInputs, [name] : value})	
+	}
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			const response = await axios.post('http://localhost:8000/user/signup', {
 				data: {
-					username,
-					email,
-					password,
+					username: signupInputs.username,
+					email: signupInputs.email,
+					password: signupInputs.password,
 				},
 			});
-			console.log(response.data.message);
+			console.log(response.data);
+			localStorage.setItem('id', response.data.data._id);
 
 		} catch (err) {
 			alert('Error: ', err);
@@ -52,20 +63,23 @@ function Signup() {
 				<input
 					type='text'
 					placeholder='Username'
-					value={username}
-					onChange={usernameInputHandler}
+					name='username'
+					value={signupInputs.username}
+					onChange={signupInputHandler}
 				/>
 				<input
 					type='email'
 					placeholder='Email'
-					value={email}
-					onChange={emailInputHandler}
+					name='email'
+					value={signupInputs.email}
+					onChange={signupInputHandler}
 				/>
 				<input
 					type='password'
 					placeholder='Password'
-					value={password}
-					onChange={passwordHandler}
+					name='password'
+					value={signupInputs.password}
+					onChange={signupInputHandler}
 				/>
 				<button>Signup</button>
 			</form>

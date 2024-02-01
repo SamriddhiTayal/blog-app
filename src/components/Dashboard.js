@@ -5,7 +5,11 @@ import { useState, useEffect } from 'react';
 function Dashboard() {
 	const [blogs, setBlogs] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [showForm, setShowForm] = useState(false);
+	const [showAddBlogForm, setShowAddBlogForm] = useState(false);
+	// const [loggedIn, setLoggedIn] = useState(false);
+	const handleLogout =()=>{
+		localStorage.clear();
+	}
 	const [addBlogFormInputs, setAddBlogFormInputs] = useState({
 		title: '',
 		content: '',
@@ -52,12 +56,19 @@ function Dashboard() {
 			});
 	};
 	useEffect(() => {
-		getUserBlogs();
+		const loggedInUser = localStorage.getItem('id');
+		if (loggedInUser) {
+			// const foundUser = JSON.parse(loggedInUser);
+			getUserBlogs();
+		}
 	}, []);
+	// useEffect(() => {
+	// 	getUserBlogs();
+	// }, []);
 	return (
 		<div>
-			<button onClick={() => setShowForm(true)}>Add Blog</button>
-			{showForm ? (
+			<button onClick={() => setShowAddBlogForm(true)}>Add Blog</button>
+			{showAddBlogForm ? (
 				<form onSubmit={handleAddBlogSubmit}>
 					<input
 						type='text'
@@ -76,7 +87,7 @@ function Dashboard() {
 					<button>Submit</button>
 				</form>
 			) : null}
-			<button>Logout</button>
+			<button onClick={handleLogout}>Logout</button>
 			<p>Display user blogs</p>
 
 			{loading ? (

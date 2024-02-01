@@ -1,32 +1,50 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 function Login() {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('')
+	// const [email, setEmail] = useState('');
+	// const [password, setPassword] = useState('');
 	const [loggedIn, setLoggedIn] = useState(false);
-	const emailInputHandler = (e) => {
-		setEmail(e.target.value);
+	const [loginInputs, setLoginInputs] = useState({
+		email: '',
+		password: '',
+	});
+	// const emailInputHandler = (e) => {
+	// 	setEmail(e.target.value);
+	// };
+	// const passwordHandler = (e) => {
+	// 	setPassword(e.target.value);
+	// };
+	const handleLoginInput = (e) => {
+		const { name, value } = e.target;
+		
+		setLoginInputs({ ...loginInputs, [name]: value });
 	};
-	const passwordHandler=(e)=>{
-		setPassword(e.target.value);
-	}
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		
+
 		axios
-		.post('http://localhost:8000/user/login', {
-			data :{
-				email, password
-			}
-		})
-		.then((res) =>{
-			setLoggedIn(res.data.success);
-			console.log(res.data.message);
-		})
-		.catch((err)=>{
-			alert("Error: ", err);
-		})
+			.post('http://localhost:8000/user/login', {
+				data: {
+					email: loginInputs.email,
+					password: loginInputs.password,
+				},
+			})
+			.then((res) => {
+				setLoggedIn(res.data.success);
+				// console.log(res.data.data);
+				localStorage.setItem('id', res.data.data._id);
+			})
+			.catch((err) => {
+				alert('Error: ', err);
+			});
 	};
+	useEffect(() => {
+		const loggedInUser = localStorage.getItem('id');
+		if (loggedInUser) {
+			// const foundUser = JSON.parse(loggedInUser);
+			setLoggedIn(true);
+		}
+	}, []);
 	return (
 		<div>
 			<p>Login page</p>
@@ -34,17 +52,19 @@ function Login() {
 				<input
 					type='email'
 					placeholder='Email'
-					value = {email}
-					onChange={emailInputHandler}
+					name='email'
+					value={loginInputs.email}
+					onChange={handleLoginInput}
 				/>
 				<input
 					type='password'
 					placeholder='Password'
-					value= {password}
-					onChange={passwordHandler}
+					name='password'
+					value={loginInputs.password}
+					onChange={handleLoginInput}
 				/>
-        <button>Login</button>
-				{loggedIn?<p>Logged In successfully</p>:null}
+				<button>Login</button>
+				{loggedIn ? <p>Logged In successfully</p> : null}
 			</form>
 		</div>
 	);
