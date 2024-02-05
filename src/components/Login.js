@@ -33,15 +33,16 @@ function Login() {
 				setLoggedIn(res.data.success);
 				// console.log(res.data.data);
 				localStorage.setItem('id', res.data.data._id);
+				localStorage.setItem('username', res.data.data.username );
 			})
 			.catch((err) => {
 				alert('Error: ', err);
 			});
 	};
 	useEffect(() => {
-		const loggedInUser = localStorage.getItem('id');
-		if (loggedInUser) {
-			// const foundUser = JSON.parse(loggedInUser);
+		const loggedInUserId = localStorage.getItem('id');
+
+		if (loggedInUserId) {
 			setLoggedIn(true);
 		}
 	}, []);

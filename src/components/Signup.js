@@ -36,6 +36,7 @@ function Signup() {
 			});
 			console.log(response.data);
 			localStorage.setItem('id', response.data.data._id);
+			localStorage.setItem('username', response.data.data.username);
 
 		} catch (err) {
 			alert('Error: ', err);

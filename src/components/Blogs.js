@@ -37,7 +37,12 @@ function Blogs() {
 			) : Array.isArray(blogs) ? (
 				blogs.map((blog, index) => (
 					<div key={index + 1}>
-						<Blog title={blog.title} content = {blog.content} author={blog.author}/>
+						<Blog
+							title={blog.title}
+							content={blog.content}
+							author={blog.author}
+							id= {blog._id}
+						/>
 					</div>
 				))
 			) : (

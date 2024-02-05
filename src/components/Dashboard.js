@@ -1,4 +1,4 @@
-import UserBlog from './UserBlog';
+import Blog from './Blog';
 // import blogData from '../data/blogs.json';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -7,18 +7,19 @@ function Dashboard() {
 	const [loading, setLoading] = useState(true);
 	const [showAddBlogForm, setShowAddBlogForm] = useState(false);
 	// const [loggedIn, setLoggedIn] = useState(false);
-	const handleLogout =()=>{
+	const handleLogout = () => {
 		localStorage.clear();
-	}
+	};
 	const [addBlogFormInputs, setAddBlogFormInputs] = useState({
 		title: '',
 		content: '',
 	});
 
 	const getUserBlogs = () => {
+		let author = localStorage.getItem('id');
 		axios
 			.post('http://localhost:8000/user', {
-				author: '658e726d74b245e76333bdff',
+				author,
 			})
 			.then((res) => {
 				setBlogs(res.data.data.blogs);
@@ -34,7 +35,7 @@ function Dashboard() {
 		// console.log(e);
 		setAddBlogFormInputs({ ...addBlogFormInputs, [name]: value });
 	};
-	const handleAddBlogSubmit =  (e) => {
+	const handleAddBlogSubmit = (e) => {
 		// const authorId = '658e726d74b245e76333bdff';
 		e.preventDefault();
 		// get author from LS
@@ -95,10 +96,11 @@ function Dashboard() {
 			) : Array.isArray(blogs) ? (
 				blogs.map((blog, index) => (
 					<div key={index}>
-						<UserBlog
+						<Blog
 							content={blog.content}
 							title={blog.title}
 							author={blog.author}
+							id={blog._id}
 						/>
 					</div>
 				))
