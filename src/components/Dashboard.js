@@ -15,46 +15,43 @@ function Dashboard() {
 		content: '',
 	});
 
-	const getUserBlogs = () => {
+	const getUserBlogs = async () => {
 		let author = localStorage.getItem('id');
-		axios
-			.post('http://localhost:8000/user', {
+		try {
+			const res = await axios.post('http://localhost:8000/user', {
 				author,
-			})
-			.then((res) => {
-				setBlogs(res.data.data.blogs);
-				setLoading(false);
-			})
-			.catch((err) => {
-				alert('Error: ', err);
-				setLoading(false);
 			});
+			setBlogs(res.data.data.blogs);
+			setLoading(false);
+		} catch (err) {
+			alert('Error: ', err);
+			setLoading(false);
+		}
 	};
 	const handleAddBlogFormInputs = (e) => {
 		const { name, value } = e.target;
 		// console.log(e);
 		setAddBlogFormInputs({ ...addBlogFormInputs, [name]: value });
 	};
-	const handleAddBlogSubmit = (e) => {
+	const handleAddBlogSubmit = async  (e) => {
 		// const authorId = '658e726d74b245e76333bdff';
 		e.preventDefault();
+		const author = localStorage.getItem('id');
 		// get author from LS
 		// sent post request
 		// display edit and delete button
-		axios
-			.post('http://localhost:8000/blog/add', {
+		try{
+			const res = await axios.post('http://localhost:8000/blog/add', {
 				data: {
-					author: '658e726d74b245e76333bdff',
+					author,
 					title: addBlogFormInputs.title,
 					content: addBlogFormInputs.content,
 				},
-			})
-			.then((res) => {
-				console.log(res.data.message);
-			})
-			.catch((err) => {
-				alert('Error:', err);
 			});
+			console.log(res.data.message);
+		}catch(err){
+			alert('Error:', err);
+		}
 	};
 	useEffect(() => {
 		const loggedInUser = localStorage.getItem('id');

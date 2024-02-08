@@ -16,28 +16,25 @@ function Login() {
 	// };
 	const handleLoginInput = (e) => {
 		const { name, value } = e.target;
-		
+
 		setLoginInputs({ ...loginInputs, [name]: value });
 	};
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-
-		axios
-			.post('http://localhost:8000/user/login', {
+		try {
+			const res = await axios.post('http://localhost:8000/user/login', {
 				data: {
 					email: loginInputs.email,
 					password: loginInputs.password,
 				},
-			})
-			.then((res) => {
-				setLoggedIn(res.data.success);
-				// console.log(res.data.data);
-				localStorage.setItem('id', res.data.data._id);
-				localStorage.setItem('username', res.data.data.username );
-			})
-			.catch((err) => {
-				alert('Error: ', err);
 			});
+			setLoggedIn(res.data.success);
+			// console.log(res.data.data);
+			localStorage.setItem('id', res.data.data._id);
+			localStorage.setItem('username', res.data.data.username);
+		} catch (err) {
+			alert('Error: ', err);
+		}
 	};
 	useEffect(() => {
 		const loggedInUserId = localStorage.getItem('id');
