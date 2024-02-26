@@ -47,11 +47,16 @@ function Blog({ title, content, author, id }) {
 	};
 	const handleLike = async () => {
 		try {
-			const res =await axios.post('http://localhost:8000/blog/like', {
+			const blogRes = await axios.post('http://localhost:8000/blog/like', {
 				id,
+				user,
 			});
-
-			console.log(res.data.data.blog.likes);
+			const userRes = await axios.post('http://localhost:8000/user/like', {
+				id,
+				user,
+			});
+			console.log(userRes.data.data.user.likedBlogs.length);
+			console.log(blogRes.data.data.blog.userLiked.length);
 		} catch (err) {
 			alert('Error: ', err);
 		}
@@ -60,8 +65,9 @@ function Blog({ title, content, author, id }) {
 		try {
 			const res = await axios.post('http://localhost:8000/blog/dislike', {
 				id,
+				user,
 			});
-			console.log(res.data.data.blog.dislikes);
+			console.log(res.data.data.blog.userDisliked.length);
 		} catch (err) {
 			alert('Error: ', err);
 		}
